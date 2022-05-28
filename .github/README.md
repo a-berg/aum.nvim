@@ -1,35 +1,23 @@
-# Nyoom.nvim
+# Aum.nvim
 
-<div align="center">
+This config is a fork from [shaunsingh/nyoom.nvim](https://github.com/shaunsingh/nyoom.nvim) where I try to create my own config based on his.
 
-[![Fennel](	https://img.shields.io/badge/Made%20with%20Fennel-2C2D72?style=for-the-badge&logo=lua&logoColor=white)](https://fennel-lang.org)
+Nyoom.nvim is a relatively small configuration that is heavily based on fennel, a lisp sibling of lua. Coming from Emacs, I see this as a feature.
+Bare neovim (like bare Emacs) requires a lot of tweaking and package installing, so I usually turn to preconfigured configs such as Spacemacs and LunarVim for neovim. For various reasons, I have decided to ditch both Spacemacs and LunarVim and try other approaches such as this one.
 
-</div>
-
-<div align="center">
-
-[![Stars](https://img.shields.io/github/stars/shaunsingh/nyoom.nvim?color=%23b66467&style=for-the-badge)](https://github.com/shaunsingh/nyoom.nvim/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/shaunsingh/nyoom.nvim?color=%238c977d&style=for-the-badge)](https://github.com/shaunsingh/nyoom.nvim/issues)
-[![Forks](https://img.shields.io/github/forks/shaunsingh/nyoom.nvim?color=%23d9bc8c&logoColor=%23151515&style=for-the-badge)](https://github.com/shaunsingh/nyoom.nvim/network/members)
-[![License](https://img.shields.io/github/license/shaunsingh/nyoom.nvim?color=%238da3b9&style=for-the-badge)](https://mit-license.org/)
-
-</div>
-
-> These are your father's parentheses.  
-> Elegant weapons for a more... civilized age.  
-— [xkcd/297](https://xkcd.com/297/)
-
-This config was a response to new configs that pop up, with very abstracted and complex codebases, such as NvChad. They try to be a one-size-fits-all config. NvChad and LunarVim both try to fit as much overall functionality as possible and needlessly lazy load *everything*, when it really isn't needed. Complex codebases lead to less freedom for end-user extensibility. Try forking NvChad and making your own configuration out of it. Everything is tied to the userConfig, and you rely on the maintainer of said code to implement features. 
-
-Nyoom.nvim provides a solution to these problems by providing only the necessary code in order to make a functioning configuration. The end goal of nyoom.nvim is to be used as a base config for users to extend and add upon, leading to a more unique editing experience. Its relatively small and simple, offers the bare minimum needed plugins to have a powerful config, and is suited to my needs, but can just as easily be suited to yours!
-
-I recommend not to clone and directly install this config, but to fork it, inspect the code, and adjust it to your liking. The best neovim configuration is what *you* make, and this config is only supposed to provide you the tools to do so.
+As for the name, I borrowed the Sanskrit ligature "ॐ" which can be transliterated as "Om", "Aum" or "Ohm". I find the symbolism and meaning of ॐ very interesting and beautiful, so I have adopted it. Plus, there's a genre of music I like a lot that uses Hindu symbolism regularly.
 
 ## Install
 
 ### Dependencies
 
 The only dependencies are `neovim-nightly` and `git`.
+
+### Aum
+
+I have found that the best way is to clone the repository (usually I do this using `ghq get`), then create a symlink between this repo and `~/.config/nvim` then using the nix flake (or installing the dependencies in [Regular](#regular)).
+
+I will have to revise this section and update it accordingly, since my objective is to have nix install the config and its dependencies.
 
 ### Regular:
 
@@ -55,6 +43,39 @@ git clone --depth 1 https://github.com/shaunsingh/nyoom.nvim.git && cd nyoom.nvi
 nix develop
 ```
 Then run `nvim` as usual, and `:PackerSync` to update/install plugins
+
+## Why fennel?
+Fennel is a programming language that brings together the speed, simplicity, and reach of Lua with the flexibility of a lisp syntax and macro system. Macros are how lisps accomplish metaprogramming. You’ll see a lot of people treat lisp macros with a kind of mystical reverence. While several other languages have macro systems, the power of macros in lisps stem from allowance of lisps to you to write programs using the same notation you use for data structures. Remember: code is data, and we just need to manipulate data.
+
+While people largely over exaggerate the usefulness of macros, there are a few places where macros shine, and configurations are one of them. Utilizing macros, we can essentially create our own syntax. For example, lets take a look at the `set!` macro I've used. `set!` is used for `vim.opt` options. For example, `(set! mouse :a)` expands to `vim.opt["mouse"]="a"`. If a string or number isn't passed to `set!`, it will assume true. e.g. `(set! list)` will expand to `vim.opt["list"]=true`. Similarly if the option starts with no, it will assume false e.g. `(set! noru)` will expand to `vim.opt["ru"]=false`.
+
+With the macros provided, you can configure neovim just as easily, or dare I say easier than you can with Lua or vimscript, while retaining the performance benefits of LuaJIT.
+
+All the magic happens in the `fnl/` folder. Some files to check out:
+- `init.fnl`: Same as your init.lua would be, just in fennel! Disables some plugins and loads the core config
+- `pack/`: This is where all your plugins go. The `pack.fnl` file is in charge of configuring packer, installing, as well as loading plugins
+- `core/defs.fnl`: This is where neovim settings go. 
+- `core/maps.fnl`: This is where mappings go. 
+- `macros/`: In lisps, macros allow the user to define arbitrary functions that convert certain Lisp forms into different forms before evaluating or compiling them. This folder contains all the macros that I (and a few others, thanks David and Kat!) have written to help you out on your neovim journey. I don't recommend touching this file unless you know what you're doing
+
+### Learning Fennel
+
+For most people, chances are you haven't even heard of fennel before. So where should you start?
+1. Read through the [Documentation](https://fennel-lang.org/)
+2. [Install fennel](https://fennel-lang.org/setup#downloading-fennel) yourself! (Skip the part where it goes over adding fennel support to your editor, that's what this project is for :p)
+3. [Learn lua](https://fennel-lang.org/lua-primer) first. I recommend reading through the [Neovim lua guide](https://github.com/nanotee/nvim-lua-guide) as well.
+4. [Learn fennel](https://fennel-lang.org/tutorial)
+5. Go over the [Style guide](https://fennel-lang.org/style).
+6. [Learn macros](https://fennel-lang.org/macros). 
+
+If you have trouble configuring neovim to your needs, check out [Antifennel](https://fennel-lang.org/see) to see how lua code compiles back to fennel! However, the generated code isn't always the cleanest, so its recommend you use it as a last resort. If you need any help, feel free to reach out to me via email or discord, and be sure to join the [Conjure Discord](https://conjure.fun/discord) too! 
+
+### When Fiddling with Fennel Code
+
+ While fiddling with the config, you can check if the things are not broken yet:
+ 1. evaluate form you just written (`<localleader>er`, by default `<space>mer`)
+ 2. evaluate buffer (`<localleader>eb`, by default `<space>meb`)
+ 3. start another neovim with a vim command: `:!neovim --headless +PlugSync`
 
 ## Design 
 Nyoom.nvim is designed against the mantras of [doom-emacs](https://github.com/hlissner/doom-emacs): (shamelessly copy pasted)
@@ -165,40 +186,6 @@ Themeing with [nvim-base16](https://github.com/RRethy/nvim-base16) and [base16-c
 Magit-like commits with [Neogit](https://github.com/TimUntersberger/neogit) 
 
 <img width="1450" alt="image" src="https://user-images.githubusercontent.com/71196912/166714003-f87b1ed0-93e3-4d4e-9767-0829d1611016.png">
-
-
-## Why fennel?
-Fennel is a programming language that brings together the speed, simplicity, and reach of Lua with the flexibility of a lisp syntax and macro system. Macros are how lisps accomplish metaprogramming. You’ll see a lot of people treat lisp macros with a kind of mystical reverence. While several other languages have macro systems, the power of macros in lisps stem from allowance of lisps to you to write programs using the same notation you use for data structures. Remember: code is data, and we just need to manipulate data.
-
-While people largely over exaggerate the usefulness of macros, there are a few places where macros shine, and configurations are one of them. Utilizing macros, we can essentially create our own syntax. For example, lets take a look at the `set!` macro I've used. `set!` is used for `vim.opt` options. For example, `(set! mouse :a)` expands to `vim.opt["mouse"]="a"`. If a string or number isn't passed to `set!`, it will assume true. e.g. `(set! list)` will expand to `vim.opt["list"]=true`. Similarly if the option starts with no, it will assume false e.g. `(set! noru)` will expand to `vim.opt["ru"]=false`.
-
-With the macros provided, you can configure neovim just as easily, or dare I say easier than you can with Lua or vimscript, while retaining the performance benefits of LuaJIT.
-
-All the magic happens in the `fnl/` folder. Some files to check out:
-- `init.fnl`: Same as your init.lua would be, just in fennel! Disables some plugins and loads the core config
-- `pack/`: This is where all your plugins go. The `pack.fnl` file is in charge of configuring packer, installing, as well as loading plugins
-- `core/defs.fnl`: This is where neovim settings go. 
-- `core/maps.fnl`: This is where mappings go. 
-- `macros/`: In lisps, macros allow the user to define arbitrary functions that convert certain Lisp forms into different forms before evaluating or compiling them. This folder contains all the macros that I (and a few others, thanks David and Kat!) have written to help you out on your neovim journey. I don't recommend touching this file unless you know what you're doing
-
-### Learning Fennel
-
-For most people, chances are you haven't even heard of fennel before. So where should you start?
-1. Read through the [Documentation](https://fennel-lang.org/)
-2. [Install fennel](https://fennel-lang.org/setup#downloading-fennel) yourself! (Skip the part where it goes over adding fennel support to your editor, that's what this project is for :p)
-3. [Learn lua](https://fennel-lang.org/lua-primer) first. I recommend reading through the [Neovim lua guide](https://github.com/nanotee/nvim-lua-guide) as well.
-4. [Learn fennel](https://fennel-lang.org/tutorial)
-5. Go over the [Style guide](https://fennel-lang.org/style).
-6. [Learn macros](https://fennel-lang.org/macros). 
-
-If you have trouble configuring neovim to your needs, check out [Antifennel](https://fennel-lang.org/see) to see how lua code compiles back to fennel! However, the generated code isn't always the cleanest, so its recommend you use it as a last resort. If you need any help, feel free to reach out to me via email or discord, and be sure to join the [Conjure Discord](https://conjure.fun/discord) too! 
-
-### When Fiddling with Fennel Code
-
- While fiddling with the config, you can check if the things are not broken yet:
- 1. evaluate form you just written (`<localleader>er`, by default `<space>mer`)
- 2. evaluate buffer (`<localleader>eb`, by default `<space>meb`)
- 3. start another neovim with a vim command: `:!neovim --headless +PlugSync`
 
 ## Notes
 
