@@ -11,7 +11,7 @@
   }:
     flake-utils.lib.simpleFlake {
       inherit self nixpkgs;
-      name = "nyoom.nvim";
+      name = "aum.nvim";
       preOverlays = [neovim-nightly-overlay.overlay];
       shell = {pkgs}:
         pkgs.mkShell {
