@@ -23,6 +23,7 @@
               ripgrep
               fennel
               fnlfmt
+              cargo
               ;
           };
 

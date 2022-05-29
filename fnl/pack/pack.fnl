@@ -105,5 +105,8 @@
 ;; Notes: orgmode was previously supported, but its quite buggy and not up to part with emacs. I think neorg is the way to go. 
 (use-package! :nvim-neorg/neorg {:config (load-file :neorg) :ft :norg :after :nvim-treesitter})
 
+;; I like to create my own themes. Therefore, Lush.
+(use-package! :rktjmp/lush.nvim {:config (load-file :lush)})
+
 ;; At the end of the file, the unpack! macro is called to initialize packer and pass each package to the packer.nvim plugin.
 (unpack!)
