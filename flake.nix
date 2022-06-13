@@ -28,7 +28,7 @@
           };
 
           shellHook = ''
-            alias nvim="nvim -u $(pwd)/init.lua"
+            alias nvim="nvim -u $(pwd)/init.lua" --cmd "set rtp+=$(pwd)"
           '';
         };
     };

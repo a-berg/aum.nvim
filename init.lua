@@ -31,7 +31,7 @@ end
 -- global variable to set the user's fennel compiler
 fennel_compiler = "hotpot"
 
--- nessecary plugins
+-- necessary plugins
 bootstrap("folke/which-key.nvim")
 bootstrap("wbthomason/packer.nvim")
 

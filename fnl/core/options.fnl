@@ -76,4 +76,4 @@
 (set! scrolloff 8)
 
 ;; cmp options
-(set! completeopt [:menu :menuone :preview :noinsert])
+(set! completeopt [:menu :menuone :preview]) ;; :noinsert

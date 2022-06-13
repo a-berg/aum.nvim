@@ -96,7 +96,7 @@
 (use-package! :kyazdani42/nvim-web-devicons {:module :nvim-web-devicons})
 (use-package! :monkoose/matchparen.nvim {:config (load-file :matchparen)})
 (use-package! :Pocco81/TrueZen.nvim {:cmd :TZAtaraxis :config (load-file :truezen)})
-(use-package! :norcalli/nvim-colorizer.lua {:config (load-file :colorizer) :event [:BufRead :BufNewFile]})
+(use-package! :norcalli/nvim-colorizer.lua {:config (load-file :colorizer) :event [:BufRead :BufNewFile]}) ; do i want this?
 
 ;; Disabled by default, just uncomment them and run :PackerSync if you want
 ;; (use-package! :akinsho/bufferline.nvim {:event :BufEnter :config (load-file :bufferline)})
@@ -107,6 +107,12 @@
 
 ;; I like to create my own themes. Therefore, Lush.
 (use-package! :rktjmp/lush.nvim {:config (load-file :lush)})
+;; my theme!
+; (use-package! :a-berg/goa-theme)
+(use-package! :savq/melange)
+
+;; motion
+(use-package! :ggandor/lightspeed.nvim)
 
 ;; At the end of the file, the unpack! macro is called to initialize packer and pass each package to the packer.nvim plugin.
 (unpack!)
