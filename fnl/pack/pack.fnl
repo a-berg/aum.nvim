@@ -114,5 +114,8 @@
 ;; motion
 (use-package! :ggandor/lightspeed.nvim)
 
+;; languages
+(use-package! :ollykel/v-vim)
+
 ;; At the end of the file, the unpack! macro is called to initialize packer and pass each package to the packer.nvim plugin.
 (unpack!)

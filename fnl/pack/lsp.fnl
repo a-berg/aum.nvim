@@ -67,7 +67,7 @@
 (let [servers [:clojure_lsp
                :rust_analyzer
                :rnix
-               :pyright]]
+               :vls]]
   (each [_ server (ipairs servers)]
     ((. (. lsp server) :setup) defaults)))
 
